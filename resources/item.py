@@ -32,6 +32,7 @@ class Item(MethodView):
         return {"message": "Item deleted."}
     
     #UPDATE ITEM BY ID
+    @jwt_required()
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200, ItemSchema)
     def put(self, item_data, item_id):
@@ -53,7 +54,6 @@ class Item(MethodView):
 @blp.route("/item")
 class ItemList(MethodView):
     
-    @jwt_required()
     #GET ALL ITEMS
     @blp.response(200, ItemSchema(many=True))
     def get(self):
