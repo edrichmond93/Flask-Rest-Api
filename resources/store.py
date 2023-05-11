@@ -26,6 +26,9 @@ class Store(MethodView):
     #DELETE STORE BY ID
     @jwt_required()
     def delete(self, store_id):
+        jwt = get_jwt()
+        if not jwt.get("is_admin"):
+            abort(401, message="Admin privilege required.")
         store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()

@@ -58,6 +58,9 @@ class LinkTagsToItem(MethodView):
     @jwt_required()
     @blp.response(200, TagAndItemSchema)
     def delete(self, item_id, tag_id):
+        jwt = get_jwt()
+        if not jwt.get("is_admin"):
+            abort(401, message="Admin privilege required.")
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel. query.get_or_404(tag_id)
 
@@ -92,6 +95,9 @@ class Tag(MethodView):
         )
     @jwt_required()
     def delete(self, tag_id):
+        jwt = get_jwt()
+        if not jwt.get("is_admin"):
+            abort(401, message="Admin privilege required.")
         tag = TagModel.query.get_or_404(tag_id)
 
         if not tag.items:
