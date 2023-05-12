@@ -3,5 +3,5 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY . .
-RUN flask db upgrade
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:create_app()"]
+# RUN flask db upgrade
+CMD ["/bin/bash", "docker-entrypoint.sh"]
